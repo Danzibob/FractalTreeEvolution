@@ -11,13 +11,13 @@ function genQ(n) {
 
 
 
-function Tree(start_length, angle, pos_ratio, layer_ratio, leaf_diameter, quotients){
+function Tree(start_length, num_layers, angle, pos_ratio, layer_ratio, leaf_diameter, quotients){
     
     this.L = start_length || floor(random(60,120));
-    this.n =  6
+    this.n = num_layers || 6
     this.a = angle || random(0.1,PI / 4);
     this.pR = pos_ratio || random(0.5,1);
-    this.lR = layer_ratio || random(0.5,0.9);
+    this.lR = layer_ratio || random(0.5,1);
     this.D = leaf_diameter || floor(random(5,20));
     this.q = quotients || genQ(this.n);
     this.energy;
@@ -25,8 +25,6 @@ function Tree(start_length, angle, pos_ratio, layer_ratio, leaf_diameter, quotie
     this.leaves = [];
     
     this.grow = function() {
-        console.log(this.q);
-        console.log("Growing...");
         var a = createVector(0, 0);
         var b = createVector(0, -this.L);
         var trunk = new Branch(a,b);
@@ -73,14 +71,17 @@ function Tree(start_length, angle, pos_ratio, layer_ratio, leaf_diameter, quotie
             E_used += this.branches[i].thickness*pow(this.branches[i].d/2,2)
         }    
         E_used = E_used/6
-        E_used += pow(this.D,2) * this.leaves.length * 1.67;
+        E_used += pow(this.D,2) * this.leaves.length * 0.67;
         
         var E_made = 0;
         this.leaves.sort((a,b) => a.y-b.y);
         var xs = this.leaves.map(a => {return a.x});
         xoff = - floor(min(xs)) +50;
-        var light = new Array(floor(max(xs)-min(xs))+100).fill(5);
+        var light = new Array(floor(max(xs)-min(xs))+100).fill(4);
         for(var i = 0; i < this.leaves.length; i++){
+            //console.log(this.leaves);
+            //console.log(i);
+            //console.log(this.leaves[i]);
             var x = this.leaves[i].x;
             var tmp = 0;
             for(var j = floor(x-0.5*this.D)+xoff; j <= floor(x+0.5*this.D)+xoff; j++){
@@ -91,8 +92,9 @@ function Tree(start_length, angle, pos_ratio, layer_ratio, leaf_diameter, quotie
             tmp = pow(tmp,2);
             E_made += tmp
         }
-        console.log(E_made-E_used);
-        createP("Energy surplus: " + String(E_made-E_used));
+        this.energy = E_made-E_used;
+        text_out.html("Energy surplus: " + String(this.energy));
+        return this.energy;
     }
 }
 
