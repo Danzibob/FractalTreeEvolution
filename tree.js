@@ -17,7 +17,7 @@ function Tree(start_length, angle, pos_ratio, layer_ratio, leaf_diameter, quotie
     this.n =  6
     this.a = angle || random(0.1,PI / 4);
     this.pR = pos_ratio || random(0.5,1);
-    this.lR = layer_ratio || random(0.5,0.0.9);
+    this.lR = layer_ratio || random(0.5,0.9);
     this.D = leaf_diameter || floor(random(5,20));
     this.q = quotients || genQ(this.n);
     this.energy;
