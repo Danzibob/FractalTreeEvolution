@@ -5,7 +5,7 @@ var noiseCounter;
 var eval_button;
 var regen_button;
 var breed_button;
-var pop_size = 1; //actually half the pop size, as it must be even
+var pop_size = 3; //actually half the pop size, as it must be even
 function setup() {
     canvas = createCanvas(800,600);
     eval_button = createButton("Evaluate");
